@@ -111,7 +111,7 @@ generate_button.addEventListener('click', generate_images);
 
 document.querySelector('.api-url').value = localStorage.getItem('api_url');
 
-setInterval(check_api_status, 3000);
-setInterval(update_images, 3000);
+setInterval(check_api_status, 10000);
+setInterval(update_images, 10000);
 
 document.querySelector('.generate-button').disabled = true;
