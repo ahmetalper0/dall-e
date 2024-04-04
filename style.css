@@ -18,7 +18,7 @@ body {
 
 }
 
-.api-url {
+.websocket-url {
     width: 35vw;
     height: 30px;
     border-radius: 10px;
@@ -28,12 +28,7 @@ body {
     text-align: center;
 }
 
-.api-status {
-    margin-top: 15px;
-    color: white;
-}
-
-.database-status {
+.websocket-status {
     margin-top: 15px;
     color: white;
 }
@@ -48,7 +43,7 @@ body {
     text-align: center;
 }
 
-.generate-button {
+.button {
     margin-top: 15px;
     padding-left: 15px;
     padding-right: 15px;
