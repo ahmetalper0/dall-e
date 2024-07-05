@@ -5,7 +5,7 @@ function get_images() {
 
     try {
 
-        fetch('https://ahmetalper-dalle.hf.space/get-image-urls')
+        fetch('https://7c53c171-42bd-4de0-8110-9ac9eade8acb.deepnoteproject.com/images')
 
             .then(response => response.json())
 
@@ -50,7 +50,7 @@ function generate_images() {
         
         if (prompt != '') {
 
-            fetch(`https://ahmetalper-dalle.hf.space/generate-image/${prompt}`)
+            fetch(`https://7c53c171-42bd-4de0-8110-9ac9eade8acb.deepnoteproject.com/generate?prompt=${prompt}`)
 
                 .then(response => response.json())
 
@@ -83,4 +83,3 @@ setInterval(get_images, 10000);
 button = document.querySelector('.button');
 
 button.addEventListener('click', generate_images);
-
