@@ -46,12 +46,6 @@ function update_images() {
 
 function generate() {
 
-    console.log('Generating');
-
-    generate_button.disabled = true;
-
-    setTimeout(() => {generate_button.disabled = false;}, 3000);
-
     if (prompt_input.value === '') {
 
         prompt_input.style.border = '2px solid red';
@@ -156,6 +150,6 @@ function generate() {
 
 update_images();
 
-setInterval(update_images, 3000);
+setInterval(update_images, 1000);
 
 generate_button.addEventListener('click', generate);
