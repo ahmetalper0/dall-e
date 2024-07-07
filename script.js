@@ -1,11 +1,14 @@
-function get_images() {
+const last_update = document.querySelector('.last-update');
+const api_key_input = document.querySelector('.api-key');
+const prompt_input = document.querySelector('.prompt');
+const generate_button = document.querySelector('.generate-button');
+const grid_container = document.querySelector('.grid-container');
 
-    const grid_container = document.querySelector('.grid-container');
-    const last_update = document.querySelector('.last-update');
+function update_images() {
 
     try {
 
-        fetch('https://7c53c171-42bd-4de0-8110-9ac9eade8acb.deepnoteproject.com/images')
+        fetch('https://ahmetalper-dalle.hf.space/images')
 
             .then(response => response.json())
 
@@ -16,7 +19,7 @@ function get_images() {
 
                 data.forEach(image_url => {
 
-                    var img = document.createElement('img');
+                    const img = document.createElement('img');
 
                     img.src = image_url;
                     img.alt = 'image';
@@ -39,24 +42,103 @@ function get_images() {
 
     }
 
-    
 }
 
-function generate_images() {
+function generate() {
 
-    var prompt = document.querySelector('.prompt').value;
+    console.log('Generating');
 
-    try {
-        
-        if (prompt != '') {
+    generate_button.disabled = true;
 
-            fetch(`https://7c53c171-42bd-4de0-8110-9ac9eade8acb.deepnoteproject.com/generate?prompt=${prompt}`)
+    setTimeout(() => {generate_button.disabled = false;}, 3000);
+
+    if (prompt_input.value === '') {
+
+        prompt_input.style.border = '2px solid red';
+        prompt_input.placeholder = 'Prompt cannot be empty.';
+        prompt_input.value = '';
+
+    } else {
+
+        prompt_input.style.border = '2px solid #373c3e';
+        prompt_input.placeholder = 'Please enter the image prompt you want to generate...';
+
+        if (api_key_input.value === '') {
+
+            api_key_input.style.border = '2px solid red';
+            api_key_input.placeholder = 'API key cannot be empty.';
+            api_key_input.value = '';
+
+        } else {
+
+            const api_key = api_key_input.value;
+
+            api_key_input.placeholder = `Checking if "${api_key}" is a valid API key...`;
+            api_key_input.value = '';
+            
+            fetch(`https://ahmetalper-dalle.hf.space/check-api-key/${api_key}`)
 
                 .then(response => response.json())
 
                 .then(data => {
 
-                    console.log(data);
+                    const api_key = data.api_key;
+                    const isvalid = data.isvalid;
+
+                    if (isvalid) {
+
+                        api_key_input.style.border = '2px solid #373c3e';
+                        api_key_input.placeholder = 'Please enter your api key...';
+                        api_key_input.value = api_key;
+
+                        fetch(`https://ahmetalper-dalle.hf.space/generate/${api_key}/${prompt_input.value}`)
+
+                            .then(response => response.json())
+
+                            .then(data => {
+
+                                const status = data.status;
+                                
+                                if (status === 'success') {
+
+                                    const image_urls = data.image_urls;
+                                    
+                                    image_urls.forEach(image_url => {
+
+                                        const img = document.createElement('img');
+                    
+                                        img.src = image_url;
+                                        img.alt = 'image';
+                    
+                                        grid_container.prepend(img);
+                    
+                                    });
+
+                                }
+
+                                if (status === 'error') {
+
+                                    const message = data.message;
+
+                                    console.error(`Error : ${message}`);
+
+                                }
+                                        
+                            })
+
+                            .catch(error => {
+
+                                console.error(`Error : ${error}`);
+            
+                            });
+                        
+                    } else {
+
+                        api_key_input.style.border = '2px solid red';
+                        api_key_input.placeholder = `"${api_key}" is not a valid API key!`;
+                        api_key_input.value = '';
+
+                    }
 
                 })
 
@@ -68,18 +150,12 @@ function generate_images() {
 
         }
 
-    } catch (error) {
-
-        console.error(`Error : ${error}`);
-
     }
 
 }
 
-get_images();
+update_images();
 
-setInterval(get_images, 10000);
+setInterval(update_images, 3000);
 
-button = document.querySelector('.button');
-
-button.addEventListener('click', generate_images);
+generate_button.addEventListener('click', generate);
