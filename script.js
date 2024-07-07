@@ -150,6 +150,6 @@ function generate() {
 
 update_images();
 
-setInterval(update_images, 1000);
+setInterval(update_images, 5000);
 
 generate_button.addEventListener('click', generate);
