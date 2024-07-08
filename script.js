@@ -4,6 +4,8 @@ const prompt_input = document.querySelector('.prompt');
 const generate_button = document.querySelector('.generate-button');
 const grid_container = document.querySelector('.grid-container');
 
+var loaded_image_urls = [];
+
 function update_images() {
 
     try {
@@ -12,19 +14,24 @@ function update_images() {
 
             .then(response => response.json())
 
-            .then(data => {
+            .then(image_urls => {
 
                 last_update.innerHTML = `Last Update : ${new Date().toLocaleTimeString()}`;
-                grid_container.innerHTML = '';
 
-                data.forEach(image_url => {
+                image_urls.forEach(image_url => {
 
-                    const img = document.createElement('img');
+                    if (!loaded_image_urls.includes(image_url)) {
 
-                    img.src = image_url;
-                    img.alt = 'image';
+                        const img = document.createElement('img');
 
-                    grid_container.appendChild(img);
+                        img.src = image_url;
+                        img.alt = 'image';
+
+                        grid_container.prepend(img);
+
+                        loaded_image_urls.push(image_url);
+
+                    }
 
                 });
 
@@ -150,6 +157,6 @@ function generate() {
 
 update_images();
 
-setInterval(update_images, 5000);
+setInterval(update_images, 1000);
 
 generate_button.addEventListener('click', generate);
