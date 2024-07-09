@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald&family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 * {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Open Sans", sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -10,62 +10,58 @@ body {
     background-color: #181818;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #373c3e; 
+}
+
+::-webkit-scrollbar-thumb {
+    background: #5b6367; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
 .container {
-    margin-left: 100px;
-    margin-right: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-left: 100px;
+    margin-right: 100px;
 
 }
 
-.last-update {
-    margin-top: 15px;
-    color: #adbabe;
-}
-
-.api-key {
+.api-key, .prompt {
     width: 80vw;
     height: 30px;
     text-align: center;
     background-color: #181a1b;
+    border: 2px solid #373c3e;
     color: #ffffff;
     border-radius: 6px;
-    border: 2px solid #373c3e;
     margin-top: 15px;
 }
 
-.api-key:focus{
-    border: 2px solid #8b969a;
+.api-key:focus, .prompt:focus {
+    border: 2px solid #c1cfd3;
     outline: none;
-}
-    
-.prompt {
-    width: 80vw;
-    height: 30px;
-    text-align: center;
-    background-color: #181a1b;
-    color: #ffffff;
-    border-radius: 6px;
-    border: 2px solid #373c3e;
-    margin-top: 15px;
 }
 
-.prompt:focus{
-    border: 2px solid #adbabe;
-    outline: none;
-}
 
 .generate-button {
     height: 30px;
     width: 10vw;
     margin-top: 15px;
-    border: 2px solid rgb(66, 71, 74);
-    color: rgb(232, 230, 227);;
-    background-color: rgb(22, 24, 25);;
+    border: 2px solid #42474A;
+    color: #E8E6E3;
+    background-color: #161819;
     border-radius: 6px;
     cursor: pointer;
-    box-shadow: rgb(66, 71, 74) 0px 6px;
+    box-shadow: #42474A 0px 6px;
 }
 
 .generate-button:hover {
@@ -74,7 +70,7 @@ body {
 
 .generate-button:active {
     background-color: #262829;
-    box-shadow: 0 3px rgb(66, 71, 74);
+    box-shadow: 0 3px #42474A;
     transform: translateY(3px);
 }
 
