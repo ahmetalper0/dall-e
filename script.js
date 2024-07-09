@@ -1,54 +1,66 @@
+const generate_button = document.querySelector('.generate-button');
+const grid_container = document.querySelector('.grid-container');
 const last_update = document.querySelector('.last-update');
 const api_key_input = document.querySelector('.api-key');
 const prompt_input = document.querySelector('.prompt');
-const generate_button = document.querySelector('.generate-button');
-const grid_container = document.querySelector('.grid-container');
-
-var loaded_image_urls = [];
 
 function update_images() {
 
-    try {
+    fetch('https://ahmetalper-dalle.hf.space/images')
 
-        fetch('https://ahmetalper-dalle.hf.space/images')
+        .then(response => response.json())
 
-            .then(response => response.json())
+        .then(image_urls => {
 
-            .then(image_urls => {
+            image_urls.forEach(image_url => {
 
-                last_update.innerHTML = `Last Update : ${new Date().toLocaleTimeString()}`;
+                const image = document.createElement('img');
 
-                image_urls.forEach(image_url => {
+                image.setAttribute('data-src', image_url);
 
-                    if (!loaded_image_urls.includes(image_url)) {
+                grid_container.appendChild(image);
+                
+            });
 
-                        const img = document.createElement('img');
+            const observer = new IntersectionObserver(entries => {
 
-                        img.src = image_url;
-                        img.alt = 'image';
+                entries.forEach(entry => {
 
-                        grid_container.prepend(img);
+                    if (entry.isIntersecting) {
 
-                        loaded_image_urls.push(image_url);
+                        const image = entry.target;
 
+                        image.src = image.getAttribute('data-src');
+
+                        image.removeAttribute('data-src');
+  
+                        observer.unobserve(image);
                     }
 
                 });
 
-            })
+            }, {
 
-            .catch(error => {
-
-                console.error(`Error : ${error}`);
+                rootMargin: '0px',
+                threshold: 0
 
             });
 
-    } catch (error) {
+            const images = document.querySelectorAll('.grid-container img');
+            
+            images.forEach(image => {
 
-        console.error(`Error : ${error}`);
+                observer.observe(image);
+                
+            });
 
-    }
+        })
 
+        .catch(error => {
+
+            console.error(`Error : ${error}`);
+
+        });
 }
 
 function generate() {
@@ -156,7 +168,5 @@ function generate() {
 }
 
 update_images();
-
-setInterval(update_images, 1000);
 
 generate_button.addEventListener('click', generate);
