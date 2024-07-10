@@ -3,10 +3,11 @@ const grid_container = document.querySelector('.grid-container');
 const last_update = document.querySelector('.last-update');
 const api_key_input = document.querySelector('.api-key');
 const prompt_input = document.querySelector('.prompt');
+const base_url = 'https://ahmetalper-dalle.hf.space';
 
 function update_images() {
 
-    fetch('https://ahmetalper-dalle.hf.space/images')
+    fetch(`${base_url}/images`)
 
         .then(response => response.json())
 
@@ -58,7 +59,14 @@ function update_images() {
 
         .catch(error => {
 
-            console.error(`Error : ${error}`);
+            api_key_input.style.border = '2px solid red';
+            prompt_input.style.border = '2px solid red';
+            
+            api_key_input.placeholder = `An error occurred while updating images, please try again later. | ${error.message}`;
+            prompt_input.placeholder = `An error occurred while updating images, please try again later. | ${error.message}`;
+
+            api_key_input.value = '';
+            prompt_input.value = '';
 
         });
 }
@@ -89,7 +97,7 @@ function generate() {
             api_key_input.placeholder = `Checking if "${api_key}" is a valid API key...`;
             api_key_input.value = '';
             
-            fetch(`https://ahmetalper-dalle.hf.space/check-api-key/${api_key}`)
+            fetch(`${base_url}/check-api-key/${api_key}`)
 
                 .then(response => response.json())
 
@@ -104,7 +112,7 @@ function generate() {
                         api_key_input.placeholder = 'Please enter your api key...';
                         api_key_input.value = api_key;
 
-                        fetch(`https://ahmetalper-dalle.hf.space/generate/${api_key}/${prompt_input.value}`)
+                        fetch(`${base_url}/generate/${api_key}/${prompt_input.value}`)
 
                             .then(response => response.json())
 
@@ -141,7 +149,14 @@ function generate() {
 
                             .catch(error => {
 
-                                console.error(`Error : ${error}`);
+                                api_key_input.style.border = '2px solid red';
+                                prompt_input.style.border = '2px solid red';
+                                
+                                api_key_input.placeholder = `An error occurred while generating images, please try again later. | ${error.message}`;
+                                prompt_input.placeholder = `An error occurred while generating images, please try again later. | ${error.message}`;
+
+                                api_key_input.value = '';
+                                prompt_input.value = '';
             
                             });
                         
@@ -157,7 +172,14 @@ function generate() {
 
                 .catch(error => {
 
-                    console.error(`Error : ${error}`);
+                    api_key_input.style.border = '2px solid red';
+                    prompt_input.style.border = '2px solid red';
+                    
+                    api_key_input.placeholder = `An error occurred while checking API key, please try again later. | ${error.message}`;
+                    prompt_input.placeholder = `An error occurred while checking API key, please try again later. | ${error.message}`;
+
+                    api_key_input.value = '';
+                    prompt_input.value = '';
 
                 });
 
